@@ -16,7 +16,7 @@ const FoodList = () => {
         {foodLists.map((item)=>(
             <div className=' w-full h-[100px] bg-[#ffffff25] rounded-3xl GlassBg flex justify-between items-center gap-5 px-5'>
             <div>
-                <div className=' text-[#fff] font-bold text-lg BoldText'>{item.name}</div>
+                <div className=' text-[#fff] font-bold text-lg BoldText text-[16px] leading-tight'>{item.name}</div>
                 <div className=' text-sm text-[#fff]'>{item.sub}</div>
             </div>
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import introImg from "../assets/intro-img.jpg"
-import { FaArrowRightLong } from "react-icons/fa6";
+
 
 const Login = () => {
   return (

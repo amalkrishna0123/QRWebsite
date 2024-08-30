@@ -11,9 +11,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Home path='/' element={<Home/>}/>
-        <Loader path='/path' element={<Loader/>}/>
-        <Login path='/AdminLogin' element={<Login/>}/>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/path' element={<Loader/>}/>
+        <Route path='/AdminLogin' element={<Login/>}/>
       </Routes>
     </Router>
   )
