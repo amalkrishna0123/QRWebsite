@@ -1,5 +1,5 @@
 import React from 'react'
-import introImg from "../assets/intro-img.jpg"
+// import introImg from "../assets/intro-img.jpg"
 
 
 const Login = () => {
@@ -7,7 +7,7 @@ const Login = () => {
     <div className=' overflow-hidden'>
       <div className=' fixed top-0 bottom-0 left-0 right-0 w-full h-full'>
         <div className='w-full h-full'>
-            <img src={introImg} className=' w-full h-full object-cover' alt="" />
+            {/* <img src={introImg} className=' w-full h-full object-cover' alt="" /> */}
         </div>
 
         <div className=' flex justify-center items-center w-[90%] mx-auto'>
