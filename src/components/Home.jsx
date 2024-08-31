@@ -8,6 +8,8 @@ import carousel3 from "../assets/carousel3.jpg"
 import carousel4 from "../assets/carousel4.jpg"
 import Category from './Category';
 import FoodList from './FoodList';
+import { Outlet } from 'react-router-dom';
+
 
 
 const Home = () => {
@@ -60,7 +62,8 @@ const Home = () => {
                 {/* Items Display */}
                 <div className=''>
                     <div className='mb-5 text-[25px] font-bold BoldText text-[#fff] drop-shadow-md'>Availbale Dishes</div>
-                    <FoodList/>
+                    {/* <FoodList/> */}
+                    <Outlet/>
                 </div>
             </div>
         </section>

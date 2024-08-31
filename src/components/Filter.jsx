@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IoCloseCircle } from "react-icons/io5";
 import { motion } from "framer-motion"
 
 
 const Filter = ({setFilterMenu , filterMenu}) => {
+    
+    const [selectedFilter, setSelectedFilter] = useState('Sort')
+
   return (
     <div>
       <motion.div
@@ -21,31 +24,85 @@ const Filter = ({setFilterMenu , filterMenu}) => {
             {/* Sort Content */}
             <div className='flex justify-center items-center'>
                 {/* Left */}
-                <div className=' flex flex-col justify-start gap-7 border p-5 w-[40%] h-[370px]'>
-                    <div className='font-bold text-lg cursor-pointer BoldText text-[#302e2e]'>Sort</div>
-                    <div className='font-bold text-lg cursor-pointer BoldText text-[#302e2e]'>Veg/Non-Veg</div>
-                    <div className=' font-bold text-lg cursor-pointer BoldText text-[#302e2e]'>Cost For Two</div>
+                <div className={ `flex flex-col justify-start gap-7 border p-5 w-[40%] h-[370px] ${ selectedFilter === 'Sort' && 'text-[#921A40]'}`}>
+                    <div className='font-bold text-lg cursor-pointer BoldText text-[#302e2e]' onClick={()=>setSelectedFilter('Sort')}>Sort</div>
+
+                    <div className={`font-bold text-lg cursor-pointer BoldText text-[#302e2e] ${ selectedFilter === 'NonVeg' && 'text-[#921A40]'}`} onClick={()=>setSelectedFilter('NonVeg')}>Veg/Non-Veg</div>
+
+                    <div className={`font-bold text-lg cursor-pointer BoldText text-[#302e2e] ${ selectedFilter === 'CostForTwo' && 'text-[#921A40]' }`} onClick={()=>setSelectedFilter('CostForTwo')}>Cost For Two</div>
+
                 </div>
-                {/* Right */}
-                <div className=' w-[60%] border h-[370px] pt-5 pl-8'>
-                <div className="flex justify-start items-center gap-2 relative">
-                    <input
-                        type="radio"
-                        className="w-4 h-4 border-2 border-[#921A40] appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
-                        name="foodType"
-                    />
-                    <div className="text-lg font-bold BoldText text-[#302e2e]">Non Veg</div>
+                {/* Right (1) */}
+                { selectedFilter === "Sort" &&(
+                    <div className=' w-[60%] border h-[370px] pt-5 pl-8 Right1'>
+                        <div className="flex justify-start items-center gap-2 relative">
+                            <input
+                                type="radio"
+                                className="w-4 h-4 border-2 border-[#921A40] appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
+                                name="foodType"
+                            />
+                            <div className="text-lg font-bold BoldText text-[#302e2e]">Low to High</div>
+                        </div>
+                    
+                        <div className=' flex justify-start items-center gap-2 relative'>
+                        <input
+                            type="radio"
+                            className="w-4 h-4 border-2 border-[#921A40]  appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
+                            name="foodType"
+                        />
+                            <div className='text-lg font-bold BoldText text-[#302e2e]'>High to Low</div>
+                        </div>
                 </div>
+                )}
+
+                {/* Right (2) */}
+                { selectedFilter === "NonVeg" && (
+                    <div className=' w-[60%] border h-[370px] pt-5 pl-8 Right2'>
+                        <div className="flex justify-start items-center gap-2 relative">
+                            <input
+                                type="radio"
+                                className="w-4 h-4 border-2 border-[#921A40] appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
+                                name="foodType"
+                            />
+                            <div className="text-lg font-bold BoldText text-[#302e2e]">Non Veg</div>
+                        </div>
+                    
+                        <div className=' flex justify-start items-center gap-2 relative'>
+                        <input
+                            type="radio"
+                            className="w-4 h-4 border-2 border-[#921A40]  appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
+                            name="foodType"
+                        />
+                            <div className='text-lg font-bold BoldText text-[#302e2e]'>Veg</div>
+                        </div>
+                </div>
+                )}
                 
-                    <div className=' flex justify-start items-center gap-2 relative'>
-                    <input
-                        type="radio"
-                        className="w-4 h-4 border-2 border-[#921A40]  appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
-                        name="foodType"
-                    />
-                        <div className='text-lg font-bold BoldText text-[#302e2e]'>Veg</div>
-                    </div>
+
+                {/* Right (3) */}
+                {selectedFilter === "CostForTwo" && (
+                    <div className=' w-[60%] border h-[370px] pt-5 pl-8 Right3'>
+                        <div className="flex justify-start items-center gap-2 relative">
+                            <input
+                                type="radio"
+                                className="w-4 h-4 border-2 border-[#921A40] appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
+                                name="foodType"
+                            />
+                            <div className="text-lg font-bold BoldText text-[#302e2e]">Less than 100</div>
+                        </div>
+                    
+                        <div className=' flex justify-start items-center gap-2 relative'>
+                        <input
+                            type="radio"
+                            className="w-4 h-4 border-2 border-[#921A40]  appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
+                            name="foodType"
+                        />
+                            <div className='text-lg font-bold BoldText text-[#302e2e]'>Greater than 100</div>
+                        </div>
                 </div>
+                )}
+                
+
             </div>
 
 

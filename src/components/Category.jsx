@@ -11,6 +11,7 @@ import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import Filter from './Filter'
 import { IoCloseSharp } from "react-icons/io5";
 import { motion } from "framer-motion"
+import { Link } from "react-router-dom"
 
 const Category = () => {
 
@@ -27,13 +28,13 @@ const Category = () => {
 
 
     const categories = [
-        { name : 'Rice', img : rice },
-        { name : 'Biriyani', img : biriyani },
-        { name : 'Vegetable', img : vegetable },
-        { name : 'Chicken', img : chicken },
-        { name : 'Beef', img : beef },
-        { name : 'Fish', img : fish },
-        { name : 'Drinks', img : drinks },
+        { name : 'Rice', img : rice, link : 'rice' },
+        { name : 'Biriyani', img : biriyani, link : 'biriyani' },
+        { name : 'Vegetable', img : vegetable, link : 'vegetable' },
+        { name : 'Chicken', img : chicken, link : 'chicken' },
+        { name : 'Beef', img : beef, link : 'beef' },
+        { name : 'Fish', img : fish, link : 'fish' },
+        { name : 'Drinks', img : drinks, link : 'drinks' },
     ]
 
   return (
@@ -44,12 +45,14 @@ const Category = () => {
             <div>
                 <div className='flex justify-start items-center gap-10 ScrollBarHidden overflow-x-auto'>
             {categories.map((item, index)=>(
-                <div className=' cursor-pointer'>
+                <Link key={item.name} to={`/${item.link}`}>
+                    <div className=' cursor-pointer'>
                     <div key={index} className='w-[70px] h-[70px] rounded-full shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]  flex-shrink-0 bg-[#fff]'>
                         <img src={item.img} className='w-full h-full object-cover rounded-full' alt={item.name} />
                     </div>
                     <div className='text-center mt-2 font-bold text-[#fff] BoldText'>{item.name}</div>
                 </div>
+                </Link>
             ))}
           </div>
           <div className=' flex justify-start items-center mt-10 gap-10'>
