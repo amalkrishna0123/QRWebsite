@@ -26,7 +26,7 @@ const Home = () => {
     <div className=''>
       
       {/* Carousel Slider */}
-        <section className='mt-5 mb-10 overflow-hidden'>
+        <section className='mt-5 mb-6 overflow-hidden'>
             <div>
                 <Slider {...settings} className=' px-2'>
 
@@ -51,14 +51,15 @@ const Home = () => {
         </section>
 
       {/*  Category Section */}
-        <section className='mb-10'>
+        <section className='mb-5'>
             <div className=' px-6'>
-                <div className='text-[22px] font-bold text-[#fff] mb-5 BoldText'>Category</div>
-                <div className=' mb-10'>
+                <div className='text-[22px] font-bold text-[#fff] mb-5 BoldText drop-shadow-md'>Category</div>
+                <div className=' mb-5'>
                     <Category/>
                 </div>
                 {/* Items Display */}
-                <div>
+                <div className=''>
+                    <div className='mb-5 text-[25px] font-bold BoldText text-[#fff] drop-shadow-md'>Availbale Dishes</div>
                     <FoodList/>
                 </div>
             </div>
