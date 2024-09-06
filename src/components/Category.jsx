@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ref, set, push, remove, onValue } from 'firebase/database';
 import { db, storage, auth } from './Firebase'; // import firebase instance
-import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref as storageRef, uploadBytesResumable } from 'firebase/storage';
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { onAuthStateChanged } from 'firebase/auth';
@@ -24,6 +24,11 @@ const Category = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const inRef1 = useRef();
     const inRef2 = useRef();
+    const [confirmDelete, setConfirmDelete] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+    const [percentage, setPercentage] = useState(0);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -86,38 +91,80 @@ const Category = () => {
 
     const uploadCategory = () => {
         if (categoryName && categoryImage) {
+            setIsLoading(true);
             const newCategoryRef = push(ref(db, 'categories/'));
             const imageRef = storageRef(storage, `categories/${newCategoryRef.key}`);
-            uploadBytes(imageRef, categoryImage).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    set(newCategoryRef, {
-                        name: categoryName,
-                        imageUrl: url,
-                        link: categoryName.toLowerCase(),
+            const uploadTask = uploadBytesResumable(imageRef, categoryImage);
+
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setPercentage(Math.round(progress));
+                },
+                (error) => {
+                    setIsLoading(false);
+                    setIsError(true);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                        set(newCategoryRef, {
+                            name: categoryName,
+                            imageUrl: url,
+                            link: categoryName.toLowerCase(),
+                        });
+                        setCategoryName('');
+                        setCategoryImage(null);
+                        setIsLoading(false);
+                        setShowSuccess(true);
+
+                        // Show success message for 5 seconds
+                        setTimeout(() => {
+                            setShowSuccess(false);
+                        }, 5000);
                     });
-                    setCategoryName('');
-                    setCategoryImage(null);
-                });
-            });
+                }
+            );
         }
     };
 
     const uploadItem = () => {
         if (selectedCategory && itemName && itemPrice && itemImage) {
+            setIsLoading(true);
             const newItemRef = push(ref(db, `categories/${selectedCategory}/items`));
             const imageRef = storageRef(storage, `items/${newItemRef.key}`);
-            uploadBytes(imageRef, itemImage).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    set(newItemRef, {
-                        name: itemName,
-                        price: itemPrice,
-                        imageUrl: url,
+            const uploadTask = uploadBytesResumable(imageRef, itemImage);
+
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setPercentage(Math.round(progress));
+                },
+                (error) => {
+                    setIsLoading(false);
+                    setIsError(true);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                        set(newItemRef, {
+                            name: itemName,
+                            price: itemPrice,
+                            imageUrl: url,
+                        });
+                        setItemName('');
+                        setItemPrice('');
+                        setItemImage(null);
+                        setIsLoading(false);
+                        setShowSuccess(true);
+
+                        // Show success message for 5 seconds
+                        setTimeout(() => {
+                            setShowSuccess(false);
+                        }, 5000);
                     });
-                    setItemName('');
-                    setItemPrice('');
-                    setItemImage(null);
-                });
-            });
+                }
+            );
         }
     };
 
@@ -133,23 +180,50 @@ const Category = () => {
             const itemRef = ref(db, `categories/${selectedCategory}/items/${editItemId}`);
 
             if (editItemImage) {
+                setIsLoading(true);
                 const imageRef = storageRef(storage, `items/${editItemId}`);
-                uploadBytes(imageRef, editItemImage).then((snapshot) => {
-                    getDownloadURL(snapshot.ref).then((url) => {
-                        set(itemRef, {
-                            name: editItemName,
-                            price: editItemPrice,
-                            imageUrl: url,
+                const uploadTask = uploadBytesResumable(imageRef, editItemImage);
+
+                uploadTask.on(
+                    'state_changed',
+                    (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        setPercentage(Math.round(progress));
+                    },
+                    (error) => {
+                        setIsLoading(false);
+                        setIsError(true);
+                    },
+                    () => {
+                        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                            set(itemRef, {
+                                name: editItemName,
+                                price: editItemPrice,
+                                imageUrl: url,
+                            });
+                            resetEditState();
+                            setIsLoading(false);
+                            setShowSuccess(true);
+
+                            // Show success message for 5 seconds
+                            setTimeout(() => {
+                                setShowSuccess(false);
+                            }, 5000);
                         });
-                        resetEditState();
-                    });
-                });
+                    }
+                );
             } else {
                 set(itemRef, {
                     name: editItemName,
                     price: editItemPrice,
                 });
                 resetEditState();
+                setShowSuccess(true);
+
+                // Show success message for 5 seconds
+                setTimeout(() => {
+                    setShowSuccess(false);
+                }, 5000);
             }
         }
     };
@@ -157,6 +231,21 @@ const Category = () => {
     const deleteItem = (itemId) => {
         const itemRef = ref(db, `categories/${selectedCategory}/items/${itemId}`);
         remove(itemRef);
+    };
+
+    const deleteCategory = (categoryId) => {
+        const categoryRef = ref(db, `categories/${categoryId}`);
+        remove(categoryRef)
+            .then(() => {
+                console.log('Category and all associated items deleted successfully.');
+                if (selectedCategory === categoryId) {
+                    setSelectedCategory('');
+                    setCategoryItems([]);
+                }
+            })
+            .catch((error) => {
+                console.error('Error deleting category:', error);
+            });
     };
 
     const resetEditState = () => {
@@ -176,6 +265,12 @@ const Category = () => {
 
     return (
         <div className='w-full scroll-smooth'>
+            {/* Display Loading and Success Messages */}
+            <div className='text-center mt-10'>
+                {isLoading && <span className='text-sm md:text-xl font-semibold text-[#343434]'>Loading... {percentage}%</span>}
+                {isError && <span className='text-sm md:text-xl font-semibold text-[#343434]'>Error <span className='text-[#ff9019]'>Uploading</span> File</span>}
+                {showSuccess && <h1 className='text-sm md:text-xl font-base text-[#343434]'>Uploaded <span className='text-[#ff9019]'>Successfully</span></h1>}
+            </div>
             {/* Category Adding */}
             {user && (
                 <div className='flex flex-col justify-center items-center gap-5 w-full mb-10'>
@@ -200,7 +295,7 @@ const Category = () => {
 
             {/* Display Categories */}
             <div className='mb-10'>
-                <div className='flex justify-start items-center gap-10 ScrollBarHidden overflow-x-auto'>
+                <div className='flex justify-start items-start gap-10 ScrollBarHidden overflow-x-auto'>
                     {categories.map((item) => (
                         <div
                             key={item.id}
@@ -211,10 +306,18 @@ const Category = () => {
                                 <img src={item.imageUrl} className='w-full h-full object-cover rounded-full' alt={item.name} />
                             </div>
                             <div className='text-center mt-2 font-bold text-[#fff] BoldText'>{item.name}</div>
+                            { user && (
+                                <div className=' text-[#f00] flex justify-center cursor-pointer text-2xl' onClick={() => deleteCategory(item.id)}><MdDelete/></div>
+                            )}
+                            
                         </div>
                     ))}
                 </div>
             </div>
+
+            {/* { confirmDelete && ( */}
+                
+            {/* )} */}
 
             {/* Items Adding */}
             {user && (

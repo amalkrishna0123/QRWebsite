@@ -72,7 +72,7 @@ const Login = () => {
               </div>
               <div className='flex justify-center items-center gap-5'>
                 <Link to="/">
-                  <button className='px-10 py-3 rounded-3xl bg-[#921A40] GlassBg text-[#fff] font-bold'>Back to Home</button>
+                  <button className='px-10 py-3 rounded-3xl bg-[#921A40] GlassBg text-[#fff] font-bold'>Home</button>
                 </Link>
                 <button className='px-10 py-3 rounded-3xl bg-[#921A40] GlassBg text-[#fff] font-bold' type='submit'>Login</button>
               </div>

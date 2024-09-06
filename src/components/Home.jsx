@@ -27,6 +27,11 @@ const Home = () => {
     return () => unsubscribe();
   }, []);
 
+
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
+
   useEffect(() => {
     const dbRef = ref(db, 'offerbanners');
     onValue(dbRef, (snapshot) => {
