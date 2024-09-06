@@ -61,3 +61,44 @@ input:placeholder-shown{
 .BoldText{
   font-family: 'Nexa';
 }
+.DisableIcon{
+  position: relative;
+  width: 60px;
+  height: 30px;
+  /* background-color: #e7e7e7; */
+  background-color: #4CAF50;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid white;
+  transition: all .2s ease;
+  -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.64);
+  -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.64);
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.64);
+}
+.DisableIcon::before{
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  right: 0;
+  top: 2px;
+  transition: all .2s ease-in-out;
+}
+.active {
+  background-color: #e7e7e7; /* Green for enable */
+  transition: all .5s ease-in-out;
+}
+
+.active::before {
+  transition: all .2s ease-in-out;
+  left: 0;
+  /* right: auto; */
+  background-color: #921A40;
+}
+.InputForm{
+  -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.64);
+  -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.64);
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.64);
+}

@@ -3,9 +3,35 @@ import { IoCloseCircle } from "react-icons/io5";
 import { motion } from "framer-motion"
 
 
-const Filter = ({setFilterMenu , filterMenu}) => {
+const Filter = ({ setSortOption, setVegFilter, setPriceFilter, applyFilter, clearFilter, setFilterMenu }) => {
     
-    const [selectedFilter, setSelectedFilter] = useState('Sort')
+    const [localSortOption, setLocalSortOption] = useState('');
+    const [localVegOption, setLocalVegOption] = useState('');
+    const [localPriceOption, setLocalPriceOption] = useState('');
+    const [selectedFilter, setSelectedFilter] = useState('Sort');
+
+
+    const handleApply = () => {
+        // Pass the local states to parent component's states
+        setSortOption(localSortOption);
+        setVegFilter(localVegOption);
+        setPriceFilter(localPriceOption);
+
+        // Apply filter in the parent component
+        applyFilter();
+        setFilterMenu(false);
+    };
+
+    const handleClear = () => {
+        // Reset local states
+        setLocalSortOption('');
+        setLocalVegOption('');
+        setLocalPriceOption('');
+
+        // Clear parent filters
+        clearFilter();
+        setFilterMenu(false);
+    };
 
   return (
     <div>
@@ -39,7 +65,10 @@ const Filter = ({setFilterMenu , filterMenu}) => {
                             <input
                                 type="radio"
                                 className="w-4 h-4 border-2 border-[#921A40] appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
-                                name="foodType"
+                                name="sortOption"
+                                value="lowToHigh"
+                                checked={sortOption === 'lowToHigh'}
+                                onChange={() => setLocalSortOption('lowToHigh')}
                             />
                             <div className="text-lg font-bold BoldText text-[#302e2e]">Low to High</div>
                         </div>
@@ -48,7 +77,10 @@ const Filter = ({setFilterMenu , filterMenu}) => {
                         <input
                             type="radio"
                             className="w-4 h-4 border-2 border-[#921A40]  appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
-                            name="foodType"
+                            name="sortOption"
+                            value="highToLow"
+                            checked={sortOption === 'highToLow'}
+                            onChange={() => setLocalSortOption('highToLow')}
                         />
                             <div className='text-lg font-bold BoldText text-[#302e2e]'>High to Low</div>
                         </div>
@@ -62,7 +94,10 @@ const Filter = ({setFilterMenu , filterMenu}) => {
                             <input
                                 type="radio"
                                 className="w-4 h-4 border-2 border-[#921A40] appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
-                                name="foodType"
+                                name="vegOption"
+                                value="NonVeg"
+                                checked={vegOption === 'NonVeg'}
+                                onChange={() => setLocalVegOption('NonVeg')}
                             />
                             <div className="text-lg font-bold BoldText text-[#302e2e]">Non Veg</div>
                         </div>
@@ -71,7 +106,10 @@ const Filter = ({setFilterMenu , filterMenu}) => {
                         <input
                             type="radio"
                             className="w-4 h-4 border-2 border-[#921A40]  appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
-                            name="foodType"
+                            name="vegOption"
+                            value="Veg"
+                            checked={vegOption === 'Veg'}
+                            onChange={() => setLocalVegOption('Veg')}
                         />
                             <div className='text-lg font-bold BoldText text-[#302e2e]'>Veg</div>
                         </div>
@@ -86,7 +124,10 @@ const Filter = ({setFilterMenu , filterMenu}) => {
                             <input
                                 type="radio"
                                 className="w-4 h-4 border-2 border-[#921A40] appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
-                                name="foodType"
+                                name="priceOption"
+                                value="<100"
+                                checked={priceOption === '<100'}
+                                onChange={() => setLocalPriceOption('<100')}
                             />
                             <div className="text-lg font-bold BoldText text-[#302e2e]">Less than 100</div>
                         </div>
@@ -95,7 +136,10 @@ const Filter = ({setFilterMenu , filterMenu}) => {
                         <input
                             type="radio"
                             className="w-4 h-4 border-2 border-[#921A40]  appearance-none checked:bg-[#921A40] rounded-none cursor-pointer relative foodType"
-                            name="foodType"
+                            name="priceOption"
+                            value=">100"
+                            checked={priceOption === '>100'}
+                            onChange={() => setLocalPriceOption('>100')}
                         />
                             <div className='text-lg font-bold BoldText text-[#302e2e]'>Greater than 100</div>
                         </div>
@@ -109,8 +153,8 @@ const Filter = ({setFilterMenu , filterMenu}) => {
             {/* Bottom Side */}
             <div className=' absolute h-[100px] bottom-0 left-0 right-0 bg-[#921A40] py-8'>
                 <div className=' flex justify-center items-center gap-10'>
-                    <div className=' px-8 py-2 rounded-2xl bg-[#fff] font-bold text-[#921A40] cursor-pointer shadow-[0_3px_10px_rgb(0,0,0,0.2)] BoldText'>Clear Filter</div>
-                    <div className='px-8 py-2 rounded-2xl bg-[#ff7700] font-bold text-[#ffffff] cursor-pointer shadow-[0_3px_10px_rgb(0,0,0,0.2)] BoldText'>Apply</div>
+                    <div className=' px-8 py-2 rounded-2xl bg-[#fff] font-bold text-[#921A40] cursor-pointer shadow-[0_3px_10px_rgb(0,0,0,0.2)] BoldText' onClick={handleClear}>Clear Filter</div>
+                    <div className='px-8 py-2 rounded-2xl bg-[#ff7700] font-bold text-[#ffffff] cursor-pointer shadow-[0_3px_10px_rgb(0,0,0,0.2)] BoldText' onClick={handleApply}>Apply</div>
                 </div>
             </div>
         </motion.div>
