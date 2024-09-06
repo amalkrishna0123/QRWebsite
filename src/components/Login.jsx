@@ -5,7 +5,7 @@ import { auth } from './Firebase';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';  // Make sure to import the CSS
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import introImg from "../assets/intro-img.jpg"
+// import introImg from "../assets/intro-img.jpg"
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -50,7 +50,7 @@ const Login = () => {
       <ToastContainer />  {/* Ensure the ToastContainer is added */}
       <div className='fixed top-0 bottom-0 left-0 right-0 w-full h-full'>
         <div className='w-full h-full'>
-          <img src={introImg} className=' w-full h-full object-cover' alt="" />
+          <img src="https://res.cloudinary.com/dqydgc2ky/image/upload/v1725617306/2151535189_umqcrd.jpg" className=' w-full h-full object-cover' alt="" />
         </div>
 
         <div className='flex justify-center items-center w-[90%] mx-auto'>
