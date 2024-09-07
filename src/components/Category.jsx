@@ -82,6 +82,7 @@ const Category = () => {
 
     const handleFileInput = (e) => {
         setCategoryImage(e.target.files[0]);
+        e.target.value = null;
     };
 
     const handleItemFileInput = (e) => {
@@ -141,6 +142,13 @@ const Category = () => {
             }
         }
     };
+    const handleEditClick = (item) => {
+        setEditItemId(item.id);
+        setEditItemName(item.name);
+        setEditItemPrice(item.price);
+        setEditItemImage(null);
+    };
+
     
     const saveItem = async () => {
         if (editItemId) {
@@ -222,6 +230,13 @@ const Category = () => {
 
     return (
         <div className='w-full scroll-smooth'>
+            <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className='outline-none border-none relative w-full py-3 pl-5 rounded-xl mb-5'
+                placeholder='Search'
+            />
             {/* Category Adding */}
             {user && (
                 <div className='flex flex-col justify-center items-center gap-5 w-full mb-10'>
