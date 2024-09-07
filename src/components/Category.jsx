@@ -261,13 +261,13 @@ const Category = () => {
                     {categories.map((item) => (
                         <div
                             key={item.id}
-                            className='cursor-pointer'
+                            className={`cursor-pointer ${selectedCategory === item.id ? 'active-category' : ''}`} // Apply the active class
                             onClick={() => setSelectedCategory(item.id)}
                         >
-                            <div className='w-[70px] h-[70px] rounded-full shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] flex-shrink-0 bg-[#fff]'>
+                            <div className={`w-[70px] h-[70px] rounded-full shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] flex-shrink-0 ${selectedCategory === item.id ? 'bg-[#ffffff] rounded-full border-[4px] border-[#301889] transition-all' : 'bg-[#fff]'}`}>
                                 <img src={item.imageUrl} className='w-full h-full object-cover rounded-full' alt={item.name} />
                             </div>
-                            <div className='text-center mt-2 font-bold text-[#fff] BoldText'>{item.name}</div>
+                            <div className={`text-center mt-2 font-bold text-[#fff] BoldText ${selectedCategory === item.id ? 'text-[#1833ff] font-bold transition-all' : 'text-[#fff]'}`}>{item.name}</div>
                             { user && (
                                 <div className=' text-[#f00] flex justify-center cursor-pointer text-2xl' onClick={() => deleteCategory(item.id)}><MdDelete/></div>
                             )}

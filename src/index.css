@@ -102,3 +102,16 @@ input:placeholder-shown{
   -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.64);
   box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.64);
 }
+.active-category {
+  /* border-radius: 50%; */
+  opacity: 1;
+}
+
+/* Adjust the default state for non-active categories */
+.cursor-pointer {
+  opacity: 1;
+}
+
+.cursor-pointer:hover {
+  opacity: 1; /* Increase opacity when hovered over */
+}
