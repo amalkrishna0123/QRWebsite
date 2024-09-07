@@ -28,6 +28,7 @@ const Category = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [percentage, setPercentage] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [allItems, setAllItems] = useState([]); // Store all items from all categories
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -53,6 +54,7 @@ const Category = () => {
                     const defaultCategory = categoryList[0].id;
                     setSelectedCategory(defaultCategory);
                 }
+                
             }
         });
     }, []);
@@ -230,23 +232,17 @@ const Category = () => {
 
     return (
         <div className='w-full scroll-smooth'>
-            <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className='outline-none border-none relative w-full py-3 pl-5 rounded-xl mb-5'
-                placeholder='Search'
-            />
+            
             {/* Category Adding */}
             {user && (
                 <div className='flex flex-col justify-center items-center gap-5 w-full mb-10'>
-                    <input
+                    {/* <input
                         type="text"
                         value={categoryName}
                         onChange={(e) => setCategoryName(e.target.value)}
                         placeholder='Enter Category Name'
                         className='w-full py-3 rounded-xl pl-3 border-none outline-none'
-                    />
+                    /> */}
                     <div className='flex justify-center items-center gap-10'>
                         <input type="file" ref={inRef1} accept='image/*' onChange={handleFileInput} className='cursor-pointer hidden' />
                         <div onClick={handleCategorySelectImage} className='px-8 py-2 rounded-xl GlassBg bg-[#ffffff4a] text-[#ffff] font-bold cursor-pointer'>
@@ -260,7 +256,7 @@ const Category = () => {
             )}
 
             {/* Display Categories */}
-            <div className='mb-10'>
+            <div className='mb-5'>
                 <div className='flex justify-start items-start gap-10 ScrollBarHidden overflow-x-auto'>
                     {categories.map((item) => (
                         <div
