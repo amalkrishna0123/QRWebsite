@@ -339,18 +339,21 @@ const Category = () => {
                             .filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
                             .map((item) => (
                                 <div key={item.id} className='GlassBg rounded-xl bg-[#ffffff3e] w-full h-[80px] flex justify-between items-center px-2'>
-                                    <div className='w-[60px] overflow-hidden GlassBg rounded-xl'>
-                                        <img src={item.imageUrl} className='w-full h-full object-contain' alt={item.name} />
+                                    <div className=' flex justify-center items-center gap-5'>
+                                        <div className='w-[60px] overflow-hidden GlassBg rounded-xl'>
+                                            <img src={item.imageUrl} className='w-full h-full object-contain' alt={item.name} />
+                                        </div>
+                                        {user && (
+                                                <div
+                                                    className='cursor-pointer text-[#fff]'
+                                                    onClick={() => handleEditClick(item)}
+                                                >
+                                                    <MdEdit />
+                                                </div>
+                                            )}
                                     </div>
                                     <div className='text-[#fff] flex items-center gap-2 text-xl'>
-                                        {user && (
-                                            <div
-                                                className='cursor-pointer'
-                                                onClick={() => handleEditClick(item)}
-                                            >
-                                                <MdEdit />
-                                            </div>
-                                        )}
+                                        
                                         {user && (
                                             <div
                                                 className='cursor-pointer'
